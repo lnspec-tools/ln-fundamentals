@@ -3,3 +3,4 @@
 pub mod bolt1;
 pub mod core;
 pub mod primitives;
+pub mod types;
