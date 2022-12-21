@@ -3,5 +3,39 @@
 version = 3
 
 [[package]]
+name = "kproc-parser"
+version = "0.0.1-alpla.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "aeede84d3fa3cb6c5b8036f2d88aed9bef444511ad1a6914ab9dc5a925908e54"
+dependencies = [
+ "proc-macro2",
+]
+
+[[package]]
 name = "lnspec"
 version = "0.1.0"
+dependencies = [
+ "lnspec_derive",
+]
+
+[[package]]
+name = "lnspec_derive"
+version = "0.1.0"
+dependencies = [
+ "kproc-parser",
+]
+
+[[package]]
+name = "proc-macro2"
+version = "1.0.49"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "57a8eca9f9c4ffde41714334dee777596264c7825420f521abc92b5b5deb63a5"
+dependencies = [
+ "unicode-ident",
+]
+
+[[package]]
+name = "unicode-ident"
+version = "1.0.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "84a22b9f218b40614adcb3f4ff08b703773ad44fa9423e4e0d346d5db86e4ebc"

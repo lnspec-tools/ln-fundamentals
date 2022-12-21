@@ -1,11 +1,13 @@
 //! core API of the lnspec crater.
 use std::io::{Error, Read, Write};
 
+pub type IOError = Error;
+
 /// trait that implement the logic
 /// to encode a type into the lightning
 /// network wire protocol.
 pub trait ToWire {
-    fn to_wire<W: Write>(&self, buff: &mut W) -> Result<(), Error>;
+    fn to_wire<W: Write>(&self, buff: &mut W) -> Result<(), IOError>;
 }
 
 /// trait that implement the logic
