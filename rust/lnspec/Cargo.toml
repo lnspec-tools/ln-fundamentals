@@ -1,0 +1,7 @@
+[package]
+name = "lnspec"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+lnspec_derive = { path = "../lnspec_derive" }
