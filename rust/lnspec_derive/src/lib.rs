@@ -11,7 +11,7 @@ use proc_macro::TokenStream;
 
 mod gen_impl;
 
-#[proc_macro_derive(EncodeWire)]
+#[proc_macro_derive(EncodeWire, attributes(msg_type))]
 pub fn impl_to_wire(tokens: TokenStream) -> TokenStream {
     let inputv2 = TokenStream2::from(tokens.clone());
     let mut stream = KTokenStream::new(&inputv2);
