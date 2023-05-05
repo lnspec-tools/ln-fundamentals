@@ -38,6 +38,7 @@ use crate::types::BigSize;
 /// Stream - A `tlv_stream` is a series of (possibly zero) `tlv_record`s, represented as the
 /// concatenation of the encoded `tlv_record`s. When used to extend existing
 /// messages, a `tlv_stream` is typically placed after all currently defined fields.
+#[derive(Debug)]
 pub struct Stream {
     pub records: Vec<Record>,
 }
@@ -74,6 +75,7 @@ impl FromWire for Stream {
 /// * [`bigsize`: `type`]
 /// * [`bigsize`: `length`]
 /// * [`length`: `value`]
+#[derive(Debug)]
 pub struct Record {
     /// The `type` is encoded using the BigSize format. It functions as a
     /// message-specific, 64-bit identifier for the `tlv_record` determining how the
