@@ -7,4 +7,4 @@ edition = "2021"
 proc-macro = true
 
 [dependencies]
-kproc-parser = { version = "0.0.1-beta.3", features = ["proc_macro_wrapper"] }
+kproc-parser = { git = "https://github.com/vincenzopalazzo/kproc-macros.git", features = ["proc_macro_wrapper"] }

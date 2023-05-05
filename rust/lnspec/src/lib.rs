@@ -1,10 +1,14 @@
 //! lnspec basic block to encode and decode the
 //! basics types with rust.
+pub mod bolt;
 pub mod core;
 pub mod primitives;
 pub mod types;
 
 pub mod prelude {
+    pub use crate::bolt::*;
+    pub use crate::types::*;
+
     #[macro_export]
     macro_rules! error {
     ($($msg:tt)*) => {{

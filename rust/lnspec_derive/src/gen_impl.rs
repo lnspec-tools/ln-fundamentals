@@ -38,13 +38,11 @@ pub(crate) fn get_from_wire_fn(ast_struct: &StructToken) -> String {
     let mut code = "fn from_wire<R: Read>(reader: &mut R) -> std::io::Result<Self> {".to_owned();
     let mut fields = Vec::<String>::new();
     for field in &ast_struct.fields {
-        code += &format!(
-            "let {} = {}::from_wire(reader);\n",
-            field.identifier, field.ty
-        );
+        let field_name = &field.identifier;
+        code += &format!("let {field_name} = {}::from_wire(reader)?;\n", field.ty);
         fields.push(field.identifier.to_string());
     }
-    code += &format!("Ok({}::_new({}))", ast_struct.name, fields.join(","));
+    code += &format!("Ok(Self::_new({}))\n", fields.join(","));
     code += "}\n";
     code
 }
@@ -57,11 +55,17 @@ pub(crate) fn generate_from_write_new_method(ast_struct: &StructToken) -> TokenS
         .map(|field| field.identifier.to_string())
         .collect::<Vec<String>>()
         .join(",");
+    let params = ast_struct
+        .fields
+        .iter()
+        .map(|field| format!("{}: {}", field.identifier, field.ty))
+        .collect::<Vec<String>>()
+        .join(",");
     format!(
         "
     impl {struct_name} {{
-         pub(self) fn new({fields}) -> Self {{
-              Self{{ {fields} }}[]
+         fn _new({params}) -> Self {{
+              Self{{ {fields} }}
          }}
     }}
 "
