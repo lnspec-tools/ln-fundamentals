@@ -1,21 +1,52 @@
 //! Lightning Network types implementation
-use crate::core::{FromWire, ToWire};
-use std::io::{Error, Read, Write};
+use std::io::{Read, Write};
 
+use crate::core::{FromWire, ToWire};
+use crate::prelude::*;
+
+/// to_wire_type_with_size - is an helper macros to
+/// generate a ToWire and FromWire trait on basic
+/// types that will be used in the `derive` proc macro.
+///
+/// EXPAND
+/// ```ingore
+/// type Foo = [u8, 32];
+///
+/// impl ToWire for Foo {
+///     fn to_write<W: Write>(&self, writer: &mut W) -> Result<(), Error> {
+///         // this works because `u8` implement the `ToWire` crate
+///         writer.write_all(self)
+///     }
+/// }
+///
+/// impl FromWire for Foo {
+///     fn from_write<W: Read>(reader: &mut R) -> Result<(), Error> {
+///         // note that we know tha side here that is 32
+///         let mut buffer = [0; 32];
+///         // FIXME: returnt the error in the `FromWire`
+///         let _ = reader.read(&mut buffer).unwrap();
+///         buffer
+///     }
+/// }
+/// ```
 macro_rules! to_wire_type_with_size {
     ($ty: ty, $size: expr) => {
         impl ToWire for $ty {
-            fn to_wire<W: Write>(&self, buff: &mut W) -> Result<(), Error> {
+            fn to_wire<W: Write>(&self, buff: &mut W) -> std::io::Result<()> {
                 buff.write_all(self)
             }
         }
 
         impl FromWire for $ty {
-            fn from_wire<R: Read>(buff: &mut R) -> Self {
-                let mut tmp_buff = [0; $size];
-                // FIXME: return error
-                let _size = buff.read(&mut tmp_buff).unwrap();
-                tmp_buff
+            fn from_wire<R: Read>(reader: &mut R) -> std::io::Result<Self> {
+                let mut buff = [0; $size];
+                let size = reader.read(&mut buff)?;
+                assert_eq!(
+                    size, $size,
+                    "written size {size} is not the given one {}",
+                    $size
+                );
+                Ok(buff)
             }
         }
     };
@@ -39,44 +70,42 @@ pub struct BigSize {
 }
 
 impl FromWire for BigSize {
-    fn from_wire<R: Read>(buff: &mut R) -> Self {
-        let flag = u8::from_wire(buff);
-        match flag {
+    fn from_wire<R: Read>(buff: &mut R) -> std::io::Result<Self> {
+        let flag = u8::from_wire(buff)?;
+        let value = match flag {
             0xFF => {
-                let value = u64::from_wire(buff);
+                let value = u64::from_wire(buff)?;
                 if value < 0x100000000 {
-                    panic!("invalid encoding")
-                } else {
-                    return BigSize { value };
+                    return error!("invalid encoding: `{value} < 0x100000000`");
                 }
+                BigSize { value }
             }
             0xFE => {
-                let value = u32::from_wire(buff);
+                let value = u32::from_wire(buff)?;
                 if value < 0x10000 {
-                    panic!("invalid")
-                } else {
-                    return BigSize {
-                        value: value as u64,
-                    };
+                    return error!("invalid encoding: `{value} < 0x10000`");
+                }
+                BigSize {
+                    value: value as u64,
                 }
             }
             0xFD => {
-                let value = u16::from_wire(buff);
+                let value = u16::from_wire(buff)?;
                 if value < 0xFD {
-                    panic!("error")
-                } else {
-                    return BigSize {
-                        value: value as u64,
-                    };
+                    return error!("invalid encoding: `{value} < 0xFD`");
+                }
+                BigSize {
+                    value: value as u64,
                 }
             }
             _ => BigSize { value: flag as u64 },
-        }
+        };
+        Ok(value)
     }
 }
 
 impl ToWire for BigSize {
-    fn to_wire<W: Write>(&self, buff: &mut W) -> Result<(), crate::core::IOError> {
+    fn to_wire<W: Write>(&self, buff: &mut W) -> std::io::Result<()> {
         match self.value {
             0..=0xFC => (self.value as u8).to_wire(buff),
             0xFD..=0xFFFF => {
