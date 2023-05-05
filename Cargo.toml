@@ -1,0 +1,6 @@
+[workspace]
+
+members = [
+        "fundamentals",
+        "fundamentals-derive",
+]

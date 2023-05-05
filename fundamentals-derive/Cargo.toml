@@ -1,0 +1,10 @@
+[package]
+name = "fundamentals-derive"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+kproc-parser = { version = "0.0.1-beta.4", features = ["proc_macro_wrapper"] }
