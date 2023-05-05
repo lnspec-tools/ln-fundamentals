@@ -41,6 +41,9 @@ macro_rules! to_wire_type_with_size {
             fn from_wire<R: Read>(reader: &mut R) -> std::io::Result<Self> {
                 let mut buff = [0; $size];
                 let size = reader.read(&mut buff)?;
+                if size == 0 {
+                    return error!("EOS");
+                }
                 assert_eq!(
                     size, $size,
                     "written size {size} is not the given one {}",
@@ -66,7 +69,7 @@ to_wire_type_with_size!(ShortChannelId, 8);
 
 /// BigSize type implementation.
 pub struct BigSize {
-    value: u64,
+    pub value: u64,
 }
 
 impl FromWire for BigSize {
