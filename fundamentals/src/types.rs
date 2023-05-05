@@ -68,6 +68,7 @@ to_wire_type_with_size!(Point, 33);
 to_wire_type_with_size!(ShortChannelId, 8);
 
 /// BigSize type implementation.
+#[derive(Debug)]
 pub struct BigSize {
     pub value: u64,
 }
