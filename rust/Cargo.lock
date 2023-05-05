@@ -4,9 +4,9 @@ version = 3
 
 [[package]]
 name = "kproc-parser"
-version = "0.0.1-alpla.6"
+version = "0.0.1-beta.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "aeede84d3fa3cb6c5b8036f2d88aed9bef444511ad1a6914ab9dc5a925908e54"
+checksum = "44df55bc08bd9bc54c1f9205b613c8bc07ff146e7fe248bffa0efff4e63eaebf"
 dependencies = [
  "proc-macro2",
 ]
