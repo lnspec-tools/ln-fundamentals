@@ -1,4 +1,3 @@
 //! Bolts implementation!
-mod bolt7;
-
-pub use bolt7::*;
+pub mod bolt1;
+pub mod bolt7;
