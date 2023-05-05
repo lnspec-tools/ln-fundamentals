@@ -19,8 +19,7 @@ dependencies = [
 [[package]]
 name = "kproc-parser"
 version = "0.0.1-beta.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "afca4f02adbf7cbe5549bed60176a2bc4f4ca3740b21977e5806eacc08ceb1c6"
+source = "git+https://github.com/vincenzopalazzo/kproc-macros.git?branch=macros/fmt_empty_generics#8c442aa1e272b77e668f858dfc58037d9732a913"
 dependencies = [
  "proc-macro2",
 ]
