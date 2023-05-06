@@ -27,6 +27,7 @@ pub struct ChannelAnnouncement {
     bitcoin_signature_1: Signature,
     bitcoin_signature_2: Signature,
     len: u16,
+    features: BitFlag,
     chain_hash: ChainHash,
     short_channel_id: ShortChannelId,
     node_id_1: Point,
@@ -44,6 +45,8 @@ pub struct ChannelUpdate {
     chain_hash: ChainHash,
     short_channel_id: ShortChannelId,
     timestamp: u32,
+    message_flags: BitFlag,
+    channel_flags: BitFlag,
     cltv_expiry_delta: u16,
     htlc_minimum_msat: u64,
     fee_base_msat: u32,
@@ -68,9 +71,13 @@ pub struct NodeAnnouncement {
     ty: u16,
     signature: Signature,
     flen: u16,
+    features: BitFlag,
     timestamp: u32,
     node_id: Point,
+    rgb_color: BitFlag,
+    alias: BitFlag,
     addrlen: u16,
+    addresses: BitFlag,
 }
 
 #[derive(DecodeWire, EncodeWire, Debug)]
@@ -81,6 +88,7 @@ pub struct QueryChannelRange {
     chain_hash: ChainHash,
     first_blocknum: u32,
     number_of_blocks: u32,
+    query_channel_range_tlvs: Stream,
 }
 
 #[derive(DecodeWire, EncodeWire, Debug)]
@@ -90,6 +98,8 @@ pub struct QueryShortChannelIds {
     ty: u16,
     chain_hash: ChainHash,
     len: u16,
+    encoded_short_ids: BitFlag,
+    query_short_channel_ids_tlvs: Stream,
 }
 
 #[derive(DecodeWire, EncodeWire, Debug)]
@@ -100,7 +110,10 @@ pub struct ReplyChannelRange {
     chain_hash: ChainHash,
     first_blocknum: u32,
     number_of_blocks: u32,
+    sync_complete: BitFlag,
     len: u16,
+    encoded_short_ids: BitFlag,
+    reply_channel_range_tlvs: Stream,
 }
 
 #[derive(DecodeWire, EncodeWire, Debug)]
@@ -109,4 +122,5 @@ pub struct ReplyShortChannelIdsEnd {
     #[msg_type = 262]
     ty: u16,
     chain_hash: ChainHash,
+    full_information: BitFlag,
 }

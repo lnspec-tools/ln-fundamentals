@@ -13,6 +13,7 @@ pub struct Error {
     ty: u16,
     channel_id: ChannelId,
     len: u16,
+    data: BitFlag,
 }
 
 #[derive(DecodeWire, EncodeWire, Debug)]
@@ -21,7 +22,9 @@ pub struct Init {
     #[msg_type = 16]
     ty: u16,
     gflen: u16,
+    globalfeatures: BitFlag,
     flen: u16,
+    features: BitFlag,
     init_tlvs: Stream,
 }
 
@@ -32,6 +35,7 @@ pub struct Ping {
     ty: u16,
     num_pong_bytes: u16,
     byteslen: u16,
+    ignored: BitFlag,
 }
 
 #[derive(DecodeWire, EncodeWire, Debug)]
@@ -40,6 +44,7 @@ pub struct Pong {
     #[msg_type = 19]
     ty: u16,
     byteslen: u16,
+    ignored: BitFlag,
 }
 
 #[derive(DecodeWire, EncodeWire, Debug)]
@@ -49,4 +54,5 @@ pub struct Warning {
     ty: u16,
     channel_id: ChannelId,
     len: u16,
+    data: BitFlag,
 }
