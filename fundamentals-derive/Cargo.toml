@@ -2,6 +2,12 @@
 name = "fundamentals-derive"
 version = "0.0.1-alpha.1"
 edition = "2021"
+authors = ["Vincenzo Palazzo <vincenzopalazzodev@gmail.com>"]
+description = "Procedural Macro capable of providing basic implementations for FromWire and ToWire traits for lightning network wire messages"
+readme = "README.md"
+homepage = "https://github.com/lnspec-tools/ln-fundamentals.git"
+repository = "https://github.com/lnspec-tools/ln-fundamentals.git"
+license = "MIT"
 
 [lib]
 proc-macro = true

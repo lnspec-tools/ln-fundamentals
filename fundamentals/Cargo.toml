@@ -2,6 +2,12 @@
 name = "fundamentals"
 version = "0.0.1-alpha.1"
 edition = "2021"
+authors = ["Vincenzo Palazzo <vincenzopalazzodev@gmail.com>"]
+description = "Zero dependencies crate to provide fundamentals type to encode and decode lightning wire messages"
+readme = "README.md"
+homepage = "https://github.com/lnspec-tools/ln-fundamentals.git"
+repository = "https://github.com/lnspec-tools/ln-fundamentals.git"
+license = "MIT"
 
 [dependencies]
-fundamentals-derive = { path = "../fundamentals-derive" }
+fundamentals-derive = { version = "0.0.1-alpha.1" }
