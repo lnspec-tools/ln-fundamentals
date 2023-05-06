@@ -26,7 +26,6 @@ pub struct ChannelAnnouncement {
     node_signature_2: Signature,
     bitcoin_signature_1: Signature,
     bitcoin_signature_2: Signature,
-    len: u16,
     features: BitFlag,
     chain_hash: ChainHash,
     short_channel_id: ShortChannelId,
@@ -47,7 +46,6 @@ pub struct ChannelUpdate {
     timestamp: u32,
     message_flags: BitFlag,
     channel_flags: BitFlag,
-    cltv_expiry_delta: u16,
     htlc_minimum_msat: u64,
     fee_base_msat: u32,
     fee_proportional_millionths: u32,
@@ -70,13 +68,11 @@ pub struct NodeAnnouncement {
     #[msg_type = 257]
     ty: u16,
     signature: Signature,
-    flen: u16,
     features: BitFlag,
     timestamp: u32,
     node_id: Point,
     rgb_color: BitFlag,
     alias: BitFlag,
-    addrlen: u16,
     addresses: BitFlag,
 }
 
@@ -97,7 +93,6 @@ pub struct QueryShortChannelIds {
     #[msg_type = 261]
     ty: u16,
     chain_hash: ChainHash,
-    len: u16,
     encoded_short_ids: BitFlag,
     query_short_channel_ids_tlvs: Stream,
 }
@@ -111,7 +106,6 @@ pub struct ReplyChannelRange {
     first_blocknum: u32,
     number_of_blocks: u32,
     sync_complete: BitFlag,
-    len: u16,
     encoded_short_ids: BitFlag,
     reply_channel_range_tlvs: Stream,
 }
