@@ -21,9 +21,7 @@ pub struct Init {
     #[warn(dead_code)]
     #[msg_type = 16]
     ty: u16,
-    gflen: u16,
     globalfeatures: BitFlag,
-    flen: u16,
     features: BitFlag,
     init_tlvs: Stream,
 }

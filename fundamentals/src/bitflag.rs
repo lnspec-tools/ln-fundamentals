@@ -8,8 +8,9 @@ use std::vec::Vec;
 
 use crate::core::{FromWire, ToWire};
 
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct BitFlag {
+    pub len: u16,
     inner: Vec<u8>,
 }
 
@@ -62,13 +63,29 @@ impl BitFlag {
     }
 }
 
+impl std::fmt::Debug for BitFlag {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        writeln!(f, "{{")?;
+        writeln!(f, "   len: {:?}", self.len)?;
+        writeln!(f, "   hex: {:x}", self)?;
+        write!(f, "}}")
+    }
+}
+
+impl std::fmt::LowerHex for BitFlag {
+    fn fmt(&self, fmtr: &mut std::fmt::Formatter) -> Result<(), std::fmt::Error> {
+        for byte in self.inner.iter() {
+            fmtr.write_fmt(format_args!("{:02x}", byte))?;
+        }
+        Ok(())
+    }
+}
+
 impl ToWire for BitFlag {
     fn to_wire<W: std::io::Write>(&self, writer: &mut W) -> std::io::Result<()> {
-        let mut feature = self.trim();
-        let len = feature.len() as u16;
-        feature.reverse();
+        let feature = self.trim();
 
-        len.to_wire(writer)?;
+        self.len.to_wire(writer)?;
         writer.write_all(&feature)?;
         Ok(())
     }
@@ -79,11 +96,9 @@ impl FromWire for BitFlag {
         let size = u16::from_wire(reader)?;
         let mut buff = vec![0u8; size as usize];
         reader.read_exact(&mut buff)?;
-        // Least significant bit first means that the least significant bit
-        // will arrive first: hence e.g. the same hexadecimal number 0x12,
-        // again `00010010` in binary representation, will arrive as
-        // the (reversed) sequence `01001000`.
-        buff.reverse();
-        Ok(Self { inner: buff })
+        Ok(Self {
+            len: size,
+            inner: buff,
+        })
     }
 }

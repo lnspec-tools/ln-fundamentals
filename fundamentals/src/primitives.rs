@@ -41,14 +41,9 @@ macro_rules! to_wire_type {
 
         impl FromWire for $ty {
             fn from_wire<R: Read>(buff: &mut R) -> std::io::Result<Self> {
-                use crate::error;
-
                 const BUFF_SIZE: usize = size_of::<$ty>();
                 let mut tmp_buff = [0; BUFF_SIZE];
-                let size = buff.read(&mut tmp_buff)?;
-                if size == 0 {
-                    return error!("EOS");
-                }
+                buff.read_exact(&mut tmp_buff)?;
                 let value = <$ty>::from_be_bytes(tmp_buff);
                 Ok(value)
             }
