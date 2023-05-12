@@ -1,6 +1,6 @@
 [package]
 name = "fundamentals-derive"
-version = "0.0.1-alpha.1"
+version = "0.0.1-alpha.2"
 edition = "2021"
 authors = ["Vincenzo Palazzo <vincenzopalazzodev@gmail.com>"]
 description = "Procedural Macro capable of providing basic implementations for FromWire and ToWire traits for lightning network wire messages"
@@ -13,4 +13,4 @@ license = "MIT"
 proc-macro = true
 
 [dependencies]
-kproc-parser = { version = "0.0.1-beta.5", features = ["proc_macro_wrapper"] }
+kproc-parser = { version = "0.0.1-beta.6", features = ["proc_macro_wrapper"] }
