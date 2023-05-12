@@ -6,7 +6,7 @@ use fundamentals_derive::{DecodeWire, EncodeWire};
 use crate::core::{FromWire, ToWire};
 use crate::prelude::*;
 
-#[derive(DecodeWire, EncodeWire, Debug)]
+#[derive(DecodeWire, EncodeWire, Debug, Clone)]
 pub struct Error {
     #[warn(dead_code)]
     #[msg_type = 17]
@@ -15,7 +15,7 @@ pub struct Error {
     pub data: BitFlag,
 }
 
-#[derive(DecodeWire, EncodeWire, Debug)]
+#[derive(DecodeWire, EncodeWire, Debug, Clone)]
 pub struct Init {
     #[warn(dead_code)]
     #[msg_type = 16]
@@ -25,7 +25,7 @@ pub struct Init {
     pub init_tlvs: Stream,
 }
 
-#[derive(DecodeWire, EncodeWire, Debug)]
+#[derive(DecodeWire, EncodeWire, Debug, Clone)]
 pub struct Ping {
     #[warn(dead_code)]
     #[msg_type = 18]
@@ -34,7 +34,7 @@ pub struct Ping {
     pub ignored: BitFlag,
 }
 
-#[derive(DecodeWire, EncodeWire, Debug)]
+#[derive(DecodeWire, EncodeWire, Debug, Clone)]
 pub struct Pong {
     #[warn(dead_code)]
     #[msg_type = 19]
@@ -42,7 +42,7 @@ pub struct Pong {
     pub ignored: BitFlag,
 }
 
-#[derive(DecodeWire, EncodeWire, Debug)]
+#[derive(DecodeWire, EncodeWire, Debug, Clone)]
 pub struct Warning {
     #[warn(dead_code)]
     #[msg_type = 1]

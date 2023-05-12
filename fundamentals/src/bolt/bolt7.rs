@@ -6,7 +6,7 @@ use fundamentals_derive::{DecodeWire, EncodeWire};
 use crate::core::{FromWire, ToWire};
 use crate::prelude::*;
 
-#[derive(DecodeWire, EncodeWire, Debug)]
+#[derive(DecodeWire, EncodeWire, Debug, Clone)]
 pub struct AnnouncementSignatures {
     #[warn(dead_code)]
     #[msg_type = 259]
@@ -17,7 +17,7 @@ pub struct AnnouncementSignatures {
     pub bitcoin_signature: Signature,
 }
 
-#[derive(DecodeWire, EncodeWire, Debug)]
+#[derive(DecodeWire, EncodeWire, Debug, Clone)]
 pub struct ChannelAnnouncement {
     #[warn(dead_code)]
     #[msg_type = 256]
@@ -35,7 +35,7 @@ pub struct ChannelAnnouncement {
     pub bitcoin_key_2: Point,
 }
 
-#[derive(DecodeWire, EncodeWire, Debug)]
+#[derive(DecodeWire, EncodeWire, Debug, Clone)]
 pub struct ChannelUpdate {
     #[warn(dead_code)]
     #[msg_type = 258]
@@ -53,7 +53,7 @@ pub struct ChannelUpdate {
     pub htlc_maximum_msat: u64,
 }
 
-#[derive(DecodeWire, EncodeWire, Debug)]
+#[derive(DecodeWire, EncodeWire, Debug, Clone)]
 pub struct GossipTimestampFilter {
     #[warn(dead_code)]
     #[msg_type = 265]
@@ -63,7 +63,7 @@ pub struct GossipTimestampFilter {
     pub timestamp_range: u32,
 }
 
-#[derive(DecodeWire, EncodeWire, Debug)]
+#[derive(DecodeWire, EncodeWire, Debug, Clone)]
 pub struct NodeAnnouncement {
     #[warn(dead_code)]
     #[msg_type = 257]
@@ -77,7 +77,7 @@ pub struct NodeAnnouncement {
     pub addresses: BitFlag,
 }
 
-#[derive(DecodeWire, EncodeWire, Debug)]
+#[derive(DecodeWire, EncodeWire, Debug, Clone)]
 pub struct QueryChannelRange {
     #[warn(dead_code)]
     #[msg_type = 263]
@@ -88,7 +88,7 @@ pub struct QueryChannelRange {
     pub query_channel_range_tlvs: Stream,
 }
 
-#[derive(DecodeWire, EncodeWire, Debug)]
+#[derive(DecodeWire, EncodeWire, Debug, Clone)]
 pub struct QueryShortChannelIds {
     #[warn(dead_code)]
     #[msg_type = 261]
@@ -98,7 +98,7 @@ pub struct QueryShortChannelIds {
     pub query_short_channel_ids_tlvs: Stream,
 }
 
-#[derive(DecodeWire, EncodeWire, Debug)]
+#[derive(DecodeWire, EncodeWire, Debug, Clone)]
 pub struct ReplyChannelRange {
     #[warn(dead_code)]
     #[msg_type = 264]
@@ -111,7 +111,7 @@ pub struct ReplyChannelRange {
     pub reply_channel_range_tlvs: Stream,
 }
 
-#[derive(DecodeWire, EncodeWire, Debug)]
+#[derive(DecodeWire, EncodeWire, Debug, Clone)]
 pub struct ReplyShortChannelIdsEnd {
     #[warn(dead_code)]
     #[msg_type = 262]
