@@ -40,15 +40,7 @@ macro_rules! to_wire_type_with_size {
         impl FromWire for $ty {
             fn from_wire<R: Read>(reader: &mut R) -> std::io::Result<Self> {
                 let mut buff = [0; $size];
-                let size = reader.read(&mut buff)?;
-                if size == 0 {
-                    return error!("EOS");
-                }
-                assert_eq!(
-                    size, $size,
-                    "written size {size} is not the given one {}",
-                    $size
-                );
+                reader.read_exact(&mut buff)?;
                 Ok(buff)
             }
         }
