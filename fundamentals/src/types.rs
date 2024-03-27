@@ -8,7 +8,8 @@ use crate::prelude::*;
 /// generate a ToWire and FromWire trait on basic
 /// types that will be used in the `derive` proc macro.
 ///
-/// EXPAND
+/// EXPAND:
+///
 /// ```ingore
 /// type Foo = [u8, 32];
 ///
@@ -20,12 +21,11 @@ use crate::prelude::*;
 /// }
 ///
 /// impl FromWire for Foo {
-///     fn from_write<W: Read>(reader: &mut R) -> Result<(), Error> {
+///     fn from_wire<R: Read>(reader: &mut R) -> std::io::Result<Self> {
 ///         // note that we know tha side here that is 32
 ///         let mut buffer = [0; 32];
-///         // FIXME: returnt the error in the `FromWire`
-///         let _ = reader.read(&mut buffer).unwrap();
-///         buffer
+///         reader.read_exact(&mut buff)?;
+///         Ok(buff)
 ///     }
 /// }
 /// ```

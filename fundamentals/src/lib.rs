@@ -10,10 +10,12 @@ pub mod types;
 pub mod prelude {
     pub use crate::bitflag::*;
     pub use crate::bolt::*;
+    #[allow(unused_imports)]
     pub use crate::primitives::*;
     pub use crate::tlv::*;
     pub use crate::types::*;
 
+    // FIXME: make this a not std compatible
     #[macro_export]
     macro_rules! error {
     ($($msg:tt)*) => {{
