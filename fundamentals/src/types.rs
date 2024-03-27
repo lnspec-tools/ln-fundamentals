@@ -72,14 +72,14 @@ impl FromWire for BigSize {
             0xFF => {
                 let value = u64::from_wire(buff)?;
                 if value < 0x100000000 {
-                    return error!("invalid encoding: `{value} < 0x100000000`");
+                    return error!("decoded bigsize is not canonical");
                 }
                 BigSize { value }
             }
             0xFE => {
                 let value = u32::from_wire(buff)?;
                 if value < 0x10000 {
-                    return error!("invalid encoding: `{value} < 0x10000`");
+                    return error!("decoded bigsize is not canonical");
                 }
                 BigSize {
                     value: value as u64,
@@ -88,7 +88,7 @@ impl FromWire for BigSize {
             0xFD => {
                 let value = u16::from_wire(buff)?;
                 if value < 0xFD {
-                    return error!("invalid encoding: `{value} < 0xFD`");
+                    return error!("decoded bigsize is not canonical");
                 }
                 BigSize {
                     value: value as u64,

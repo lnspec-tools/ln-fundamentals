@@ -1,6 +1,7 @@
 [workspace]
-
 members = [
         "fundamentals",
         "fundamentals-derive",
 ]
+
+resolver = "2"
