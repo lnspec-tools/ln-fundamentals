@@ -42,10 +42,10 @@ fn test_bigsize() {
                 wire_value
             );
             // FIXME: if the error do not match emit a warning
-           // assert_eq!(
-           //     vector.exp_error.unwrap(),
-           //     wire_value.err().as_ref().unwrap().to_string()
-           // );
+            // assert_eq!(
+            //     vector.exp_error.unwrap(),
+            //     wire_value.err().as_ref().unwrap().to_string()
+            // );
         } else {
             let wire_value = wire_value.unwrap();
             assert_eq!(
