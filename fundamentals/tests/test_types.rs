@@ -32,7 +32,7 @@ fn test_bigsize() {
         let bytes = hex::decode(vector.bytes.clone());
         assert!(bytes.is_ok(), "{:?}", bytes.unwrap_err());
         let bytes = bytes.unwrap();
-        let mut reader = BufReader::new(bytes.as_slice().clone());
+        let mut reader = BufReader::new(bytes.as_slice());
         let wire_value = BigSize::from_wire(&mut reader);
         if vector.exp_error.is_some() {
             assert!(
@@ -41,23 +41,29 @@ fn test_bigsize() {
                 vector.name,
                 wire_value
             );
-        }
-        let wire_value = wire_value.unwrap();
-        assert_eq!(
-            wire_value.value, vector.value,
-            "{}: received value `{}` different from expected `{}`",
-            vector.name, wire_value.value, vector.value
-        );
+            // FIXME: if the error do not match emit a warning
+           // assert_eq!(
+           //     vector.exp_error.unwrap(),
+           //     wire_value.err().as_ref().unwrap().to_string()
+           // );
+        } else {
+            let wire_value = wire_value.unwrap();
+            assert_eq!(
+                wire_value.value, vector.value,
+                "{}: received value `{}` different from expected `{}`",
+                vector.name, wire_value.value, vector.value
+            );
 
-        let buff = Vec::new();
-        let mut writer = BufWriter::new(buff);
-        let wire_value = wire_value.to_wire(&mut writer);
-        assert!(wire_value.is_ok(), "{:?}", wire_value);
-        let wire_value = hex::encode(writer.buffer());
-        assert_eq!(
-            wire_value, vector.bytes,
-            "{}: encoded hex value `{}` different from the expected `{}`",
-            vector.name, wire_value, vector.bytes
-        );
+            let buff = Vec::new();
+            let mut writer = BufWriter::new(buff);
+            let wire_value = wire_value.to_wire(&mut writer);
+            assert!(wire_value.is_ok(), "{:?}", wire_value);
+            let wire_value = hex::encode(writer.buffer());
+            assert_eq!(
+                wire_value, vector.bytes,
+                "{}: encoded hex value `{}` different from the expected `{}`",
+                vector.name, wire_value, vector.bytes
+            );
+        }
     }
 }
