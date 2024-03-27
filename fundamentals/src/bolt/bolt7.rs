@@ -6,10 +6,10 @@ use fundamentals_derive::{DecodeWire, EncodeWire};
 use crate::core::{FromWire, ToWire};
 use crate::prelude::*;
 
+
 #[derive(DecodeWire, EncodeWire, Debug, Clone)]
 pub struct AnnouncementSignatures {
-    #[warn(dead_code)]
-    #[msg_type = 259]
+    #[msg_type=259]
     pub ty: u16,
     pub channel_id: ChannelId,
     pub short_channel_id: ShortChannelId,
@@ -19,8 +19,7 @@ pub struct AnnouncementSignatures {
 
 #[derive(DecodeWire, EncodeWire, Debug, Clone)]
 pub struct ChannelAnnouncement {
-    #[warn(dead_code)]
-    #[msg_type = 256]
+    #[msg_type=256]
     pub ty: u16,
     pub node_signature_1: Signature,
     pub node_signature_2: Signature,
@@ -37,8 +36,7 @@ pub struct ChannelAnnouncement {
 
 #[derive(DecodeWire, EncodeWire, Debug, Clone)]
 pub struct ChannelUpdate {
-    #[warn(dead_code)]
-    #[msg_type = 258]
+    #[msg_type=258]
     pub ty: u16,
     pub signature: Signature,
     pub chain_hash: ChainHash,
@@ -55,8 +53,7 @@ pub struct ChannelUpdate {
 
 #[derive(DecodeWire, EncodeWire, Debug, Clone)]
 pub struct GossipTimestampFilter {
-    #[warn(dead_code)]
-    #[msg_type = 265]
+    #[msg_type=265]
     pub ty: u16,
     pub chain_hash: ChainHash,
     pub first_timestamp: u32,
@@ -65,8 +62,7 @@ pub struct GossipTimestampFilter {
 
 #[derive(DecodeWire, EncodeWire, Debug, Clone)]
 pub struct NodeAnnouncement {
-    #[warn(dead_code)]
-    #[msg_type = 257]
+    #[msg_type=257]
     pub ty: u16,
     pub signature: Signature,
     pub features: BitFlag,
@@ -79,8 +75,7 @@ pub struct NodeAnnouncement {
 
 #[derive(DecodeWire, EncodeWire, Debug, Clone)]
 pub struct QueryChannelRange {
-    #[warn(dead_code)]
-    #[msg_type = 263]
+    #[msg_type=263]
     pub ty: u16,
     pub chain_hash: ChainHash,
     pub first_blocknum: u32,
@@ -90,8 +85,7 @@ pub struct QueryChannelRange {
 
 #[derive(DecodeWire, EncodeWire, Debug, Clone)]
 pub struct QueryShortChannelIds {
-    #[warn(dead_code)]
-    #[msg_type = 261]
+    #[msg_type=261]
     pub ty: u16,
     pub chain_hash: ChainHash,
     pub encoded_short_ids: BitFlag,
@@ -100,8 +94,7 @@ pub struct QueryShortChannelIds {
 
 #[derive(DecodeWire, EncodeWire, Debug, Clone)]
 pub struct ReplyChannelRange {
-    #[warn(dead_code)]
-    #[msg_type = 264]
+    #[msg_type=264]
     pub ty: u16,
     pub chain_hash: ChainHash,
     pub first_blocknum: u32,
@@ -113,9 +106,9 @@ pub struct ReplyChannelRange {
 
 #[derive(DecodeWire, EncodeWire, Debug, Clone)]
 pub struct ReplyShortChannelIdsEnd {
-    #[warn(dead_code)]
-    #[msg_type = 262]
+    #[msg_type=262]
     pub ty: u16,
     pub chain_hash: ChainHash,
     pub full_information: BitFlag,
 }
+
