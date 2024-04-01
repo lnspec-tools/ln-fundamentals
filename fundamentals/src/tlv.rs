@@ -37,17 +37,17 @@ use crate::types::BigSize;
 /// concatenation of the encoded `tlv_record`s. When used to extend existing
 /// messages, a `tlv_stream` is typically placed after all currently defined fields.
 #[derive(Clone)]
-pub struct Stream {
-    pub records: Vec<Record>,
+pub struct Stream<T: ToWire + FromWire> {
+    pub records: Vec<Record<T>>,
 }
 
-impl std::fmt::Debug for Stream {
+impl<T: ToWire + FromWire> std::fmt::Debug for Stream<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{:?}", self.records)
     }
 }
 
-impl ToWire for Stream {
+impl<T: ToWire + FromWire> ToWire for Stream<T> {
     fn to_wire<W: std::io::Write>(&self, writer: &mut W) -> std::io::Result<()> {
         for record in &self.records {
             record.to_wire(writer)?;
@@ -56,7 +56,7 @@ impl ToWire for Stream {
     }
 }
 
-impl FromWire for Stream {
+impl<T: ToWire + FromWire> FromWire for Stream<T> {
     fn from_wire<R: std::io::Read>(reader: &mut R) -> std::io::Result<Self> {
         let mut records = Vec::new();
         loop {
@@ -79,7 +79,7 @@ impl FromWire for Stream {
 /// * [`bigsize`: `length`]
 /// * [`length`: `value`]
 #[derive(Clone)]
-pub struct Record {
+pub struct Record<T: ToWire + FromWire> {
     /// The `type` is encoded using the BigSize format. It functions as a
     /// message-specific, 64-bit identifier for the `tlv_record` determining how the
     /// contents of `value` should be decoded. `type` identifiers below 2^16 are
@@ -93,10 +93,10 @@ pub struct Record {
     pub lenght: BigSize,
     /// The `value` depends entirely on the `type`, and should be encoded or decoded
     /// according to the message-specific format determined by `type`.
-    pub value: Vec<u8>,
+    pub value: Vec<T>,
 }
 
-impl std::fmt::Debug for Record {
+impl<T: ToWire + FromWire> std::fmt::Debug for Record<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         writeln!(f, "{{")?;
         writeln!(f, "   ty: {:?}", self.ty)?;
@@ -106,7 +106,7 @@ impl std::fmt::Debug for Record {
     }
 }
 
-impl std::fmt::LowerHex for Record {
+impl<T: ToWire + FromWire> std::fmt::LowerHex for Record<T> {
     fn fmt(&self, fmtr: &mut std::fmt::Formatter) -> Result<(), std::fmt::Error> {
         for byte in self.value.iter() {
             fmtr.write_fmt(format_args!("{:02x}", byte))?;
@@ -115,26 +115,28 @@ impl std::fmt::LowerHex for Record {
     }
 }
 
-impl ToWire for Record {
+impl<T: ToWire + FromWire> ToWire for Record<T> {
     fn to_wire<W: std::io::Write>(&self, writer: &mut W) -> std::io::Result<()> {
         self.ty.to_wire(writer)?;
         self.lenght.to_wire(writer)?;
-        writer.write(&self.value)?;
+        self.value.iter().for_each(|elem| elem.to_wire(writer)?);
         Ok(())
     }
 }
 
-impl FromWire for Record {
+impl<T: ToWire + FromWire> FromWire for Record<T> {
     fn from_wire<R: std::io::Read>(reader: &mut R) -> std::io::Result<Self> {
         let ty = BigSize::from_wire(reader)?;
         let lenght = BigSize::from_wire(reader)?;
-        // FIXME: this depends from the types
-        let mut buffer = vec![0u8; lenght.value as usize];
-        reader.read_exact(&mut buffer)?;
+        let mut buffer = Vec::new();
+        for _ in lenght.value {
+            let val = T::from_wire(reader)?;
+            buffer.push(val);
+        }
         Ok(Record {
             ty,
             lenght,
-            value: buffer.to_vec(),
+            value: buffer,
         })
     }
 }
