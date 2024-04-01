@@ -1,13 +1,11 @@
 //! Bitflag rust Implementation.
 //!
-//! This implementation is inspired and taken from
-//! the awesome amplify library <https://github.com/rust-amplify/rust-amplify/blob/master/src/collection/flags.rs>
-//!
 //! Author: Vincenzo Palazzo <vincenzopalazzodev@gmail.com>.
 use std::vec::Vec;
 
 use crate::core::{FromWire, ToWire};
 
+// FIXME: rename to bitvector :)
 #[derive(Clone, Debug)]
 pub struct BitFlag {
     pub len: u16,
