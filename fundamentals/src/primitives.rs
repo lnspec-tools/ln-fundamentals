@@ -31,6 +31,7 @@ use crate::core::{FromWire, ToWire};
 ///     }
 /// }
 /// ````
+#[macro_export]
 macro_rules! to_wire_type {
     ($ty: ty) => {
         impl ToWire for $ty {
