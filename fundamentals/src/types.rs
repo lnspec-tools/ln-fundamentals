@@ -53,11 +53,13 @@ pub type Sha256 = [u8; 32];
 pub type Signature = [u8; 64];
 pub type Point = [u8; 33];
 pub type ShortChannelId = [u8; 8];
+pub type Color = [u8; 3];
 
 to_wire_type_with_size!(ChainHash, 32);
 to_wire_type_with_size!(Signature, 64);
 to_wire_type_with_size!(Point, 33);
 to_wire_type_with_size!(ShortChannelId, 8);
+to_wire_type_with_size!(Color, 3);
 
 /// BigSize type implementation.
 #[derive(Debug, Clone)]
