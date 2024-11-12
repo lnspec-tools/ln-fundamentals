@@ -30,13 +30,17 @@
 //! makes parsing faster and the data smaller than in comparable text based protocols.
 //!
 //! Author: Vincenzo Palazzo <vincenzopalazzodev@gmail.com>
+#[cfg(feature = "pyo3")]
+use pyo3::pyclass;
+
 use crate::core::{FromWire, ToWire};
 use crate::types::BigSize;
 
 /// Stream - A `tlv_stream` is a series of (possibly zero) `tlv_record`s, represented as the
 /// concatenation of the encoded `tlv_record`s. When used to extend existing
 /// messages, a `tlv_stream` is typically placed after all currently defined fields.
-#[derive(Clone)]
+#[cfg_attr(feature = "pyo3", pyclass)]
+#[derive(Clone, Default)]
 pub struct Stream {
     pub records: Vec<Record>,
 }
@@ -78,6 +82,7 @@ impl FromWire for Stream {
 /// * [`bigsize`: `type`]
 /// * [`bigsize`: `length`]
 /// * [`length`: `value`]
+#[cfg_attr(feature = "pyo3", pyclass)]
 #[derive(Clone)]
 pub struct Record {
     /// The `type` is encoded using the BigSize format. It functions as a
