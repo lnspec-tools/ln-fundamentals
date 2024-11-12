@@ -3,10 +3,14 @@
 //! Author: Vincenzo Palazzo <vincenzopalazzodev@gmail.com>.
 use std::vec::Vec;
 
+#[cfg(feature = "pyo3")]
+use pyo3::pyclass;
+
 use crate::core::{FromWire, ToWire};
 
 // FIXME: rename to bitvector :)
-#[derive(Clone, Debug)]
+#[cfg_attr(feature = "pyo3", pyclass)]
+#[derive(Clone, Debug, Default)]
 pub struct BitFlag {
     pub len: u16,
     inner: Vec<u8>,

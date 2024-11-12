@@ -11,7 +11,7 @@ license = "MIT"
 
 [dependencies]
 fundamentals-derive = { version = "0.0.1-alpha.2" }
-pyo3 = { version = "0.22", optional = true }
+pyo3 = { version = "0.22", optional = true, features = [ "extension-module" ] }
 
 [dev-dependencies]
 hex = "0.4.3"
