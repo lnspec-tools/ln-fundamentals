@@ -2,6 +2,7 @@
 members = [
         "fundamentals",
         "fundamentals-derive",
+        "ffi/ffi-fundamentals",
 ]
 
 resolver = "2"
