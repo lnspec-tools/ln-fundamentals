@@ -39,6 +39,20 @@ impl Init {
             init_tlvs: Stream::default(),
         })
     }
+
+    fn wire(&self) -> PyResult<Vec<u8>> {
+        use crate::core::ToWire;
+
+        let mut buff = Vec::new();
+        self.to_wire(&mut buff)?;
+        Ok(buff)
+    }
+
+    fn wire_decode(&self, buff: Vec<u8>) -> PyResult<Init> {
+        let mut cursor = std::io::Cursor::new(buff);
+        let init = Init::from_wire(&mut cursor)?;
+        Ok(init)
+    }
 }
 
 #[cfg_attr(feature = "pyo3", pyclass(set_all))]
